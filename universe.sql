@@ -454,7 +454,7 @@ ALTER TABLE ONLY public.galaxy
 ALTER TABLE ONLY public.star
     ADD CONSTRAINT fk_star_is FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
-
+test
 --
 -- PostgreSQL database dump complete
 --
