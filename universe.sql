@@ -53,7 +53,7 @@ CREATE TABLE public.galaxy (
     diameter numeric(7,2),
     groups text,
     is_visible_unaided boolean,
-    morph_id integer
+    morphology_id integer
 );
 
 
@@ -64,7 +64,6 @@ ALTER TABLE public.galaxy OWNER TO freecodecamp;
 --
 
 CREATE SEQUENCE public.galaxy_galaxy_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -101,7 +100,6 @@ ALTER TABLE public.moon OWNER TO freecodecamp;
 --
 
 CREATE SEQUENCE public.moon_moon_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -123,9 +121,11 @@ ALTER SEQUENCE public.moon_moon_id_seq OWNED BY public.moon.moon_id;
 --
 
 CREATE TABLE public.morphology (
-    morph_id integer NOT NULL,
+    morphology_id integer NOT NULL,
     name character varying(30) NOT NULL,
-    classification character varying(10)
+    classification character varying(10),
+    number_one integer,
+    number_two integer
 );
 
 
@@ -136,7 +136,6 @@ ALTER TABLE public.morphology OWNER TO freecodecamp;
 --
 
 CREATE SEQUENCE public.morphology_morph_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -150,7 +149,7 @@ ALTER TABLE public.morphology_morph_id_seq OWNER TO freecodecamp;
 -- Name: morphology_morph_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.morphology_morph_id_seq OWNED BY public.morphology.morph_id;
+ALTER SEQUENCE public.morphology_morph_id_seq OWNED BY public.morphology.morphology_id;
 
 
 --
@@ -173,7 +172,6 @@ ALTER TABLE public.planet OWNER TO freecodecamp;
 --
 
 CREATE SEQUENCE public.planet_planet_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -210,7 +208,6 @@ ALTER TABLE public.star OWNER TO freecodecamp;
 --
 
 CREATE SEQUENCE public.star_star_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -242,10 +239,10 @@ ALTER TABLE ONLY public.moon ALTER COLUMN moon_id SET DEFAULT nextval('public.mo
 
 
 --
--- Name: morphology morph_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+-- Name: morphology morphology_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.morphology ALTER COLUMN morph_id SET DEFAULT nextval('public.morphology_morph_id_seq'::regclass);
+ALTER TABLE ONLY public.morphology ALTER COLUMN morphology_id SET DEFAULT nextval('public.morphology_morph_id_seq'::regclass);
 
 
 --
@@ -304,9 +301,9 @@ INSERT INTO public.moon VALUES (20, 'Deimos', 'Outer', 0.001, 11);
 -- Data for Name: morphology; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.morphology VALUES (1, 'shell', 'eo');
-INSERT INTO public.morphology VALUES (2, 'type-cd', 'e');
-INSERT INTO public.morphology VALUES (3, 'spiral', 's');
+INSERT INTO public.morphology VALUES (1, 'shell', 'eo', NULL, NULL);
+INSERT INTO public.morphology VALUES (2, 'type-cd', 'e', NULL, NULL);
+INSERT INTO public.morphology VALUES (3, 'spiral', 's', NULL, NULL);
 
 
 --
@@ -419,7 +416,7 @@ ALTER TABLE ONLY public.morphology
 --
 
 ALTER TABLE ONLY public.morphology
-    ADD CONSTRAINT morphology_pkey PRIMARY KEY (morph_id);
+    ADD CONSTRAINT morphology_pkey PRIMARY KEY (morphology_id);
 
 
 --
@@ -467,7 +464,7 @@ ALTER TABLE ONLY public.star
 --
 
 ALTER TABLE ONLY public.galaxy
-    ADD CONSTRAINT fk_morph_id FOREIGN KEY (morph_id) REFERENCES public.morphology(morph_id);
+    ADD CONSTRAINT fk_morph_id FOREIGN KEY (morphology_id) REFERENCES public.morphology(morphology_id);
 
 
 --
